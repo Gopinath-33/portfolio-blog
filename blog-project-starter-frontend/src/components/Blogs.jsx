@@ -8,8 +8,8 @@ import Footer from './common/Footer'
 // Admin User ID
 const ADMIN_UID = "R34Mk11I4zbjNCad8ImdTHAgl013"
 
-// Localhost Backend URL
-const API_BASE_URL = "http://localhost:5000/api/blogs"
+// Live Vercel Backend URL
+const API_BASE_URL = "https://portfolio-blog-1gem.vercel.app/api/blogs"
 
 function Blogs() {
   const [blogs, setBlogs] = useState([])
@@ -211,7 +211,6 @@ function Blogs() {
                     <div className="flex items-center gap-3">
                       <time dateTime={blog.date}>{blog.date}</time>
                       
-                      {/* Admin Delete Button */}
                       {!authLoading && isAdmin && (
                         <button
                           onClick={() => handleDeleteBlog(blog._id)}
