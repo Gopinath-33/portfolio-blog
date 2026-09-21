@@ -1,11 +1,10 @@
 import Home from "./components/Home";
-import Blogs from "./components/Blogs";
+
 import About from "./components/About";
 import Project from './components/Project'
 import Certificate from './components/Certificate'
 import Contact from "./components/Contact";
-import Login from "./components/Login";
-import Signup from "./components/Signup";
+
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 function App() {
