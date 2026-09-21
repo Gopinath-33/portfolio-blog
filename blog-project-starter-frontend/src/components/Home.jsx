@@ -188,39 +188,7 @@ function Home() {
         </section>
 
         {/* --- BLOG PROMO CARD --- */}
-        <section className="relative group rounded-3xl bg-slate-900/80 border border-slate-800 p-8 sm:p-14 shadow-2xl overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-violet-600/10 via-transparent to-indigo-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-
-          <div className="flex flex-col md:flex-row items-center justify-between gap-10 lg:gap-16">
-            <div className="w-full md:w-1/2 flex justify-center">
-              <img
-                src={BlogImage}
-                alt="Tech Blog Cover"
-                className="w-full max-w-md rounded-2xl shadow-2xl border border-slate-700/60 object-cover group-hover:scale-[1.03] transition-transform duration-500"
-              />
-            </div>
-
-            <div className="w-full md:w-1/2 space-y-6 text-center md:text-left">
-              <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight">
-                I Write About <br />
-                <span className="bg-gradient-to-r from-violet-400 to-indigo-400 bg-clip-text text-transparent">
-                  Modern Tech
-                </span>
-              </h2>
-              <p className="text-slate-400 text-base sm:text-lg leading-relaxed">
-                I regularly document tutorials, architecture patterns, and tips on React, Node.js, and web performance.
-              </p>
-              <div>
-                <button
-                  onClick={() => navigate('/blogs')}
-                  className="px-7 py-3 rounded-xl font-medium bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-lg shadow-violet-500/25 hover:shadow-violet-500/50 hover:-translate-y-1 transition-all duration-200 cursor-pointer"
-                >
-                  Read My Blogs →
-                </button>
-              </div>
-            </div>
-          </div>
-        </section>
+  
       </main>
 
       <Footer />
