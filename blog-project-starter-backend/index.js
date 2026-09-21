@@ -9,10 +9,38 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// MongoDB Local Connection
-mongoose.connect('mongodb://127.0.0.1:27017/blogDB')
-  .then(() => console.log('MongoDB Connected Successfully!'))
-  .catch((err) => console.error('MongoDB Connection Error:', err.message));
+// MongoDB Connection with Serverless Caching
+const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/blogDB';
+
+let isConnected = false;
+
+const connectDB = async () => {
+  if (isConnected) return;
+
+  try {
+    const db = await mongoose.connect(MONGO_URI, {
+      bufferCommands: false, // Prevents buffering timeout errors
+    });
+    isConnected = db.connections[0].readyState;
+    console.log('MongoDB Connected Successfully!');
+  } catch (err) {
+    console.error('MongoDB Connection Error:', err.message);
+    throw err;
+  }
+};
+
+// Middleware to ensure DB is connected before processing requests
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    return res.status(500).json({ 
+      message: 'Database connection failed', 
+      error: err.message 
+    });
+  }
+});
 
 // Schema & Model
 const blogSchema = new mongoose.Schema({
@@ -22,7 +50,12 @@ const blogSchema = new mongoose.Schema({
   likes: { type: Number, default: 0 }
 });
 
-const Blog = mongoose.model('Blog', blogSchema);
+const Blog = mongoose.models.Blog || mongoose.model('Blog', blogSchema);
+
+// Root Health Check Route
+app.get('/', (req, res) => {
+  res.send('Portfolio Blog API is running smoothly!');
+});
 
 // Routes
 // 1. Get All Blogs
@@ -60,20 +93,19 @@ app.post('/api/blogs', async (req, res) => {
     return res.status(400).json({ message: 'Title and content are required' });
   }
 
-  const blog = new Blog({
-    newTitle,
-    newContent,
-    date: date || new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
-    likes: likes || 0
-  });
-
   try {
-    const newBlog = await blog.save();
+    const newBlog = await Blog.create({
+      newTitle,
+      newContent,
+      date: date || new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
+      likes: likes || 0
+    });
     res.status(201).json(newBlog);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
 });
+
 // 4. Delete a Blog Post Route
 app.delete('/api/blogs/:id', async (req, res) => {
   try {
@@ -87,6 +119,12 @@ app.delete('/api/blogs/:id', async (req, res) => {
     return res.status(500).json({ message: err.message });
   }
 });
-// Start Server on Port 5000
-const PORT = 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+// Local dev support
+const PORT = process.env.PORT || 5000;
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+}
+
+// Required for Vercel Serverless Function
+module.exports = app;
