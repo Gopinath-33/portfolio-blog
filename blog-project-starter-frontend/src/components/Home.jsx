@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import BlogProfileImage from "../assets/home-portfoli0.png"
+import BlogProfileImage from "../assets/home-portfolio.png"
 import BlogImage from "../assets/blogImage.png"
 import ResumePDF from "../assets/GOPI-RESUME-MERNSTACK.pdf" // Direct import
 import { useNavigate } from 'react-router-dom'
