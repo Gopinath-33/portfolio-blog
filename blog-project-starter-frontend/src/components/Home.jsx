@@ -100,12 +100,7 @@ function Home() {
               >
                 Hire Me
               </button>
-              <button 
-                onClick={() => navigate('/blogs')}
-                className="px-8 py-3.5 rounded-xl font-medium bg-slate-900/80 hover:bg-slate-800 text-slate-200 border border-slate-700/80 hover:border-violet-500/50 hover:-translate-y-1 active:translate-y-0 transition-all duration-200 cursor-pointer text-sm sm:text-base"
-              >
-                Read Articles
-              </button>
+           
             </div>
 
             {/* Social Media Icons */}
